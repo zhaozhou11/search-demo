@@ -17,11 +17,13 @@ public class Main {
             indexer.index("D:\\book");
             indexer.close();
 
-            Searcher.search(INDEX_PATH,"可视化");
+            Searcher.search(INDEX_PATH,"lucene");
 
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println(e.getCause());
         }
 
     }
+
 }
