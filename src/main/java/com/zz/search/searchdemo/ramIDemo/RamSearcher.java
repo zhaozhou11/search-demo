@@ -13,10 +13,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.IOContext;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.store.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -32,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RamSearcher {
 
-    private static int INDEX_NUM = 10;
+    private static int INDEX_NUM = 50;
     private static IndexReader[] indexReader = null;
     private static AtomicInteger index = new AtomicInteger(0);
 
@@ -47,10 +44,9 @@ public class RamSearcher {
         for (int i = 0; i < INDEX_NUM; i ++){
             try {
                 // 得到读取索引文件的路径
-                FSDirectory fsDir = FSDirectory.open(Paths.get(indexDir));
+               // FSDirectory fsDir = FSDirectory.open(Paths.get(indexDir));
 
-                RAMDirectory ramDirectory = new RAMDirectory(fsDir, IOContext.READ);
-                Directory dir = ramDirectory;
+                Directory dir = new MMapDirectory(Paths.get(indexDir));
                 // 通过Dir得到路径下所有文件
                 indexReader[i] = DirectoryReader.open(dir);
             }catch (Exception e){
@@ -87,11 +83,11 @@ public class RamSearcher {
 
         // 遍历hits.scoreDocs，得到scoreDoc
         // scoreDoc：得分文档，即得到的文档  scoreDocs：代表topDocs这个文档数组
-        for (ScoreDoc scoreDoc : hits.scoreDocs) {
+        /*for (ScoreDoc scoreDoc : hits.scoreDocs) {
             Document doc = searcher.doc(scoreDoc.doc);
             //System.out.println("name:" + doc.get("name") + " ,path=" + doc.get("path"));
 
-        }
+        }*/
 
         // 计算索引结束时间
         long end = System.nanoTime();

@@ -19,7 +19,7 @@ public class RamMain {
     public static  String INDEX_PATH = "D:\\index";
 
 
-    public static int SEARCH_TASK_NUM = 10000;
+    public static int SEARCH_TASK_NUM = 1000000;
     public static void main(String[] args){
         try {
             Indexer indexer = new Indexer(INDEX_PATH);
@@ -42,7 +42,7 @@ public class RamMain {
                 }
             });
 
-            System.out.println("totalTs = " + tsHolder.value / 1000000.0 + "ms");
+            System.out.println("totalTs = " + tsHolder.value / 1000000 + "ms");
             System.out.println("avgTs = " + tsHolder.value/(double)SEARCH_TASK_NUM/1000000.0 + "ms");
         }catch (Exception e){
             e.printStackTrace();
